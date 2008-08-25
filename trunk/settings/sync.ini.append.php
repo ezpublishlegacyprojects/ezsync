@@ -6,7 +6,7 @@ Dir=
 User=
 Port=22
 Parameters=
-FileRsyncEclude=extension/ezsync/settings/rsync_exclude.txt
+FileRsyncEclude=extension/ezdeploy/settings/rsync_exclude.txt
 
 [ProductionSyncSettings]
 Dir=
