@@ -1,0 +1,45 @@
+eZ Deploy readme
+=================
+
+eZ Deploy is an automatic deploy system based on rsync shell script. 
+It allows to deploy ez application from dev environment to production environment via rsync system. 
+Yuo can configure wich files to exclude and different environment to deploy.
+
+It's a shell command and to use it you need to have installed on your server and on your client rsync (http://samba.anu.edu.au/rsync/)
+
+You can also make a site offline or online executing a shell scripting and you can customizing a template for your landing page message while site is down.
+
+Make your site offline
+----------------------
+
+To make your site offline you need to:
+
+1. customize rewrite rule for you IP address on settings/htaccess file, so you can see site while all the others can't see it
+2. run on the root of eZ Publish "php extension/ezdeploy/bin/offline.php
+3. reload your siet homepage on browser
+
+Make your site online
+---------------------
+
+To make your site online you need to:
+
+1. run on the root of eZ Publish "php extension/ezdeploy/bin/online.php
+2. reload your siet homepage on browser
+
+Synchronize your dev environment with your production environment
+-----------------------------------------------------------------
+
+To synchronize your dev environment (local server) with your production environment (remote server) you need:
+
+1. install rsync script on your local server and remote server (apt-get install rsync if you are in a debian-like dustribution)
+2. configure settings/sync.ini.append.php file with your environment settings (you can have more environment to set)
+
+|   Host is your remote host
+|   Dir is the remote directory where put files
+|   User is ssh user
+|   Port is ssh port
+|   Parameters are rsync extra parameters
+|   FileRsyncEclude is the file rsync use to exclude files and dirs
+
+3.run on the root of eZ Publish tree "php extension/ezdeploy/bin/sync.php --env=<ENV_NAME>", in this way rsync work in dry-run mode, so it really not synchronize but you can see the file that could be syncronized.
+4.run on the root of eZ Publish tree "php extension/ezdeploy/bin/sync.php --env=<ENV_NAME> --go", in this way all file are really synchronized
