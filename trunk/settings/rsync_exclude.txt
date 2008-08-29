@@ -2,12 +2,3 @@
 var/*
 update
 doc
-extension/ezharmony/settings/siteaccess/dev
-settings/siteaccess/dev
-settings/siteaccess/panel_dev
-index_image.php
-index_image_mysql.php
-kickstart.ini-dist
-.htaccess
-logfile.ini.append.php
-site.ini.append.php
