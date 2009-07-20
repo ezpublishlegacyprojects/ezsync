@@ -126,7 +126,7 @@ $dir = $ini->hasvariable($envSection, 'Dir') ? $ini->variable($envSection, 'Dir'
 $user = $ini->hasvariable($envSection, 'User') ? $ini->variable($envSection, 'User') : $ini->variable($defaultEnvSection, 'User'); 
 $port = $ini->hasvariable($envSection, 'Port') ? $ini->variable($envSection, 'Port') : $ini->variable($defaultEnvSection, 'Port'); 
 $parameters = $ini->hasvariable($envSection, 'Parameters') ? $ini->variable($envSection, 'Parameters') : $ini->variable($defaultEnvSection, 'Parameters'); 
-$file_rsync_exclude = $ini->hasvariable($envSection, 'FileRsyncEclude') ? $ini->variable($envSection, 'FileRsyncEclude') : $ini->variable($defaultEnvSection, 'FileRsyncEclude'); 
+$file_rsync_exclude = $ini->hasvariable($envSection, 'FileRsyncExclude') ? $ini->variable($envSection, 'FileRsyncExclude') : $ini->variable($defaultEnvSection, 'FileRsyncExclude');
 
 echo "Connecting to ",$user,"@",$host,":",$port."\n";
 echo "Sync dir ",$dir,"\n";
