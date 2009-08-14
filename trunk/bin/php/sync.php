@@ -122,7 +122,7 @@ else{
 
 
 $host = $ini->hasvariable($envSection, 'Host') ? $ini->variable($envSection, 'Host') : $ini->variable($defaultEnvSection, 'Host');
-$dir = $ini->hasvariable($envSection, 'Dir') ? $ini->variable($envSection, 'Dir') : $ini->variable($defaultEnvSection, 'Dir');
+$dir = $ini->hasvariable($envSection, 'Dir') && $ini->variable($envSection, 'Dir') != '' ? $ini->variable($envSection, 'Dir') : new Exception('You need to select your server dir');
 $user = $ini->hasvariable($envSection, 'User') ? $ini->variable($envSection, 'User') : $ini->variable($defaultEnvSection, 'User'); 
 $port = $ini->hasvariable($envSection, 'Port') ? $ini->variable($envSection, 'Port') : $ini->variable($defaultEnvSection, 'Port'); 
 $parameters = $ini->hasvariable($envSection, 'Parameters') ? $ini->variable($envSection, 'Parameters') : $ini->variable($defaultEnvSection, 'Parameters'); 
