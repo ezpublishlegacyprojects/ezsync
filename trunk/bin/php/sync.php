@@ -28,7 +28,8 @@ require_once('autoload.php');
 function run_sync($dry_run = true, $host, $dir, $user, $port, $parameters, $cli, $script, $file_rsync_exclude)
 {
 
-  if (!file_exists($file_rsync_exclude)){
+  if (!file_exists($file_rsync_exclude))
+  {
     $script->shutdown(1, 'You must create a rsync_exclude file for your extension.');
   }
 
@@ -37,13 +38,15 @@ function run_sync($dry_run = true, $host, $dir, $user, $port, $parameters, $cli,
     $dir .= '/';
   }
 
-  if($user != ''){
+  if($user != '')
+  {
     $user .= '@';
   }
 
   $ssh = 'ssh';
 
-  if($port != ''){
+  if($port != '')
+  {
     $ssh .= ' -p '.$port.' ';
   }
 
@@ -76,7 +79,8 @@ function run_sync($dry_run = true, $host, $dir, $user, $port, $parameters, $cli,
   
 }
 
-function execute($cmd, $script){
+function execute($cmd, $script)
+{
   ob_start();
   passthru($cmd.' 2>&1', $return);
   $content = ob_get_contents();
@@ -92,34 +96,45 @@ function execute($cmd, $script){
 
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "Sync script to deploy eZ Publish Project."),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true) );
+$script =& eZScript::instance(array('description' => ("Sync script to deploy eZ Publish Project."),
+                                    'use-session' => true,
+                                    'site-access' => true,
+                                    'use-modules' => true,
+                                    'use-extensions' => true));
 
 $script->startup();
 
-$options = $script->getOptions( "[go][env;]",
-                                "",
-                                array(	'go'	=> 'Really sync, without simulating',
-                                		'env'	=> 'Sync specified enviroment'));
+$options = $script->getOptions("[list][go][env;]",
+                               "",
+                               array('go'	 => 'Really sync, without simulating',
+                                     'env'	 => 'Sync specified enviroment',
+                                     'list' => 'List available environments'));
 
 
                                 
 $script->initialize();
-
 $ini = eZINI::instance('sync.ini');
-
 $defaultEnvSection = 'DefaultSyncSettings';
-$envSection = '';
 
-if($options['env'] && $ini->hasSection(ucfirst($options['env']).'SyncSettings')){
-	$envSection = ucfirst($options['env']).'SyncSettings';
-}
-else{
-	$envSection = $defaultEnvSection;
+if ($options['list'])
+{
+  foreach ($ini->groups() as $index => $group)
+  {
+    $cli->notice('> '.str_replace('SyncSettings', '', $index));
+    foreach ($group as $key => $value)
+    {
+      $cli->notice('>> '.$key.': '.$value);
+    }
+  }
+  return $script->shutdown();
 }
 
+if($options['env'] == '' || !$ini->hasSection(ucfirst($options['env']).'SyncSettings'))
+{  
+  return $script->shutdown(-1, "Env option is mandatory");
+}
+
+$envSection = ucfirst($options['env']).'SyncSettings';
 
 $host = $ini->hasvariable($envSection, 'Host') ? $ini->variable($envSection, 'Host') : $ini->variable($defaultEnvSection, 'Host');
 $dir = $ini->hasvariable($envSection, 'Dir') && $ini->variable($envSection, 'Dir') != '' ? $ini->variable($envSection, 'Dir') : new Exception('You need to select your server dir');
@@ -133,13 +148,14 @@ echo "Sync dir ",$dir,"\n";
 
 $dry_run = true;
 
-if($options['go']){
+if ($options['go'])
+{
   $dry_run = false;
 }
 
 run_sync($dry_run, $host, $dir, $user, $port, $parameters, $cli, $script, $file_rsync_exclude);
 
-$cli->output( "Sync completed" );
+$cli->output("Sync completed");
 return $script->shutdown();
 
 
