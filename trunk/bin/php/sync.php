@@ -118,12 +118,13 @@ $defaultEnvSection = 'DefaultSyncSettings';
 
 if ($options['list'])
 {
+  $cli->notice($cli->stylize('green', 'Environements list:'));
   foreach ($ini->groups() as $index => $group)
   {
-    $cli->notice('> '.str_replace('SyncSettings', '', $index));
+    $cli->notice($cli->stylize('blue', str_replace('SyncSettings', '', $index)));
     foreach ($group as $key => $value)
     {
-      $cli->notice('>> '.$key.': '.$value);
+      $cli->notice($cli->stylize('dark-red', "  ".$key.': ').$value);
     }
   }
   return $script->shutdown();
