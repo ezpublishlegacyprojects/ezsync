@@ -53,21 +53,11 @@ function run_sync($dry_run = true, $host, $dir, $user, $port, $parameters, $cli,
 
   if($parameters == '')
   {
-    $parameters = '-azC --force --delete';
+    $parameters = '-rlDcz --force --delete';
     if (file_exists($file_rsync_exclude))
     {
       $parameters .= ' --exclude-from='.$file_rsync_exclude;
     }
-
-    /*if (file_exists('config/rsync_include.txt'))
-    {
-      $parameters .= ' --include-from=config/rsync_include.txt';
-    }
-
-    if (file_exists('config/rsync.txt'))
-    {
-      $parameters .= ' --files-from=config/rsync.txt';
-    }*/
   }
 
 
@@ -95,8 +85,8 @@ function execute($cmd, $script)
 }
 
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance(array('description' => ("Sync script to deploy eZ Publish Project."),
+$cli = eZCLI::instance();
+$script = eZScript::instance(array('description' => ("Sync script to deploy eZ Publish Project."),
                                     'use-session' => true,
                                     'site-access' => true,
                                     'use-modules' => true,
